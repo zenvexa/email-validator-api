@@ -1,20 +1,21 @@
-# Email Validation API
+# Professional Email Validation API
 
-Professional email validation API with disposable domain detection.
+High-performance REST API for email validation and disposable domain detection.
 
-## Features
-- ✅ Email format validation
-- ✅ Disposable domain detection
-- ✅ Quality scoring
-- ✅ Batch processing
-- ✅ RESTful API
-- ✅ Auto-generated documentation
+## 🌟 Features
+- ✅ Email format validation (RFC compliant)
+- ✅ Disposable/temporary email detection  
+- ✅ Domain verification
+- ✅ Bulk email processing
+- ✅ Quality scoring (0-100)
+- ✅ Real-time validation
+- ✅ Detailed error messages
 
-## Quick Start
+## 🚀 Quick Start
 ```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run API
+# Local development
 cd app
 python main.py
+
+# Test endpoint
+curl "https://your-api-url.com/verify?email=test@gmail.com"
