@@ -1,5 +1,6 @@
 [build]
 builder = "nixpacks"
+buildCommand = "cd app && apt-get update && apt-get install -y python3-pip && pip3 install -r requirements.txt"
 
 [deploy]
 startCommand = "cd app && gunicorn main:app --bind 0.0.0.0:$PORT"
