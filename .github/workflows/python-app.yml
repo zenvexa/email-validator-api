@@ -31,6 +31,5 @@ jobs:
         python -c "from flask import Flask; print('✅ Flask installed successfully')"
         cd app
         python -c "from main import app; print('✅ API import successful')"
-EOF
 
 
