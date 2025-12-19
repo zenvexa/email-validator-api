@@ -5,9 +5,9 @@ name: Python application
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   test:
@@ -31,5 +31,9 @@ jobs:
         python -c "from flask import Flask; print('✅ Flask installed successfully')"
         cd app
         python -c "from main import app; print('✅ API import successful')"
+EOF
 
-
+# Push
+git add .github/workflows/python-app.yml
+git commit -m "Fix YAML syntax"
+git push origin main
