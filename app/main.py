@@ -185,5 +185,4 @@ def not_found(error):
 def server_error(error):
     return jsonify({"error": "Internal server error"}), 500
 
-# ✅ Vercel ke liye required line
-handler = app
+# Ensure there is no app.run() here
