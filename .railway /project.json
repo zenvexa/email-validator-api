@@ -1,4 +1,3 @@
 {
-  "build": "pip install -r requirements.txt",
   "start": "bash start.sh"
 }
