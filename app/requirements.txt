@@ -1,2 +1,4 @@
+cd /data/data/com.termux/files/home/email-api
+cat > app/requirements.txt
 Flask==3.1.2
 gunicorn==21.2.0
