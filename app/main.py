@@ -4,7 +4,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# Professional disposable domains list
 DISPOSABLE_DOMAINS = {
     "tempmail.com", "mailinator.com", "yopmail.com",
     "10minutemail.com", "guerrillamail.com", "trashmail.com",
@@ -14,32 +13,25 @@ DISPOSABLE_DOMAINS = {
 }
 
 def validate_email_format(email):
-    """Professional email validation"""
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return bool(re.match(pattern, email))
 
 def is_disposable_domain(domain):
-    """Check if domain is disposable"""
     return domain.lower() in DISPOSABLE_DOMAINS
 
 def calculate_email_score(email, valid, disposable):
-    """Calculate email quality score (0-100)"""
     if not valid:
         return 0
     if disposable:
         return 30
-    
-    # Bonus for popular domains
     popular_domains = {"gmail.com", "yahoo.com", "outlook.com", "hotmail.com"}
     domain = email.split('@')[1].lower()
     if domain in popular_domains:
         return 95
-    
     return 85
 
 @app.route('/')
 def home():
-    """API homepage with documentation"""
     return jsonify({
         "api": "Professional Email Validation API",
         "version": "2.0.0",
@@ -64,13 +56,9 @@ def home():
 
 @app.route('/verify')
 def verify_email():
-    """Professional email verification endpoint"""
     email = request.args.get('email', '').strip()
-    
     if not email:
         return jsonify({"error": "Email parameter is required"}), 400
-    
-    # Basic length check
     if len(email) > 254:
         return jsonify({
             "email": email,
@@ -79,10 +67,7 @@ def verify_email():
             "score": 0,
             "message": "Email too long (max 254 characters)"
         })
-    
-    # Format validation
     valid_format = validate_email_format(email)
-    
     if not valid_format:
         return jsonify({
             "email": email,
@@ -91,13 +76,9 @@ def verify_email():
             "score": 0,
             "message": "Invalid email format"
         })
-    
-    # Domain analysis
     domain = email.split('@')[1].lower()
     disposable = is_disposable_domain(domain)
     score = calculate_email_score(email, valid_format, disposable)
-    
-    # Prepare response
     response = {
         "email": email,
         "valid_format": True,
@@ -107,47 +88,33 @@ def verify_email():
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "suggestions": []
     }
-    
-    # Add suggestions
     if disposable:
         response["suggestions"].append("Use a professional email provider (Gmail, Outlook, etc.)")
-    
     if score < 50:
         response["suggestions"].append("Consider using a more reputable email domain")
-    
     return jsonify(response)
 
 @app.route('/batch', methods=['POST'])
 def batch_verify():
-    """Bulk email verification"""
     data = request.get_json()
-    
     if not data or 'emails' not in data:
         return jsonify({"error": "JSON payload with 'emails' array is required"}), 400
-    
     emails = data['emails']
-    
     if not isinstance(emails, list):
         return jsonify({"error": "'emails' must be an array"}), 400
-    
     if len(emails) > 100:
         return jsonify({"error": "Maximum 100 emails per batch"}), 400
-    
     results = []
-    
     for email in emails:
         try:
             email = str(email).strip()
             valid_format = validate_email_format(email)
             disposable = False
             domain = None
-            
             if valid_format:
                 domain = email.split('@')[1].lower()
                 disposable = is_disposable_domain(domain)
-            
             score = calculate_email_score(email, valid_format, disposable)
-            
             results.append({
                 "email": email,
                 "valid_format": valid_format,
@@ -165,7 +132,6 @@ def batch_verify():
                 "error": "Processing error",
                 "timestamp": datetime.utcnow().isoformat() + "Z"
             })
-    
     return jsonify({
         "total_emails": len(emails),
         "processed": len(results),
@@ -175,7 +141,6 @@ def batch_verify():
 
 @app.route('/health')
 def health_check():
-    """Health check endpoint for monitoring"""
     return jsonify({
         "status": "healthy",
         "service": "email-validation-api",
@@ -186,7 +151,6 @@ def health_check():
 
 @app.route('/stats')
 def get_stats():
-    """API statistics"""
     return jsonify({
         "total_disposable_domains": len(DISPOSABLE_DOMAINS),
         "api_version": "2.0.0",
@@ -207,7 +171,6 @@ def get_stats():
 
 @app.route('/domains')
 def list_disposable_domains():
-    """List all disposable domains"""
     return jsonify({
         "count": len(DISPOSABLE_DOMAINS),
         "domains": sorted(list(DISPOSABLE_DOMAINS)),
@@ -222,5 +185,5 @@ def not_found(error):
 def server_error(error):
     return jsonify({"error": "Internal server error"}), 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=False)
+# ✅ Single change for Vercel
+handler = app
