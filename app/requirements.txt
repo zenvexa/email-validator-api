@@ -1,2 +1,2 @@
-echo "Flask==3.1.2" > app/requirements.txt
-echo "gunicorn==21.2.0" >> app/requirements.t
+Flask==3.1.2
+gunicorn==21.2.0
