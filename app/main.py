@@ -184,5 +184,3 @@ def not_found(error):
 @app.errorhandler(500)
 def server_error(error):
     return jsonify({"error": "Internal server error"}), 500
-
-# Ensure there is no app.run() here
